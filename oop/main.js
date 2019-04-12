@@ -2,16 +2,19 @@
 
 $(document).ready(startApp);
 var game;
+var generator;
 
 function startApp(){
-    game = new Guessconvert ();
+    generator = new RandomGenerator ();
+    game = new Guessconvert (generator);
     game.guess_start();
 }
 
 class Guessconvert {
-    constructor() {
+    constructor(generator) {
         this.handleGuess = this.handleGuess.bind(this);
         this.secretNumber;
+        this.generator = generator;
 
     }
 
@@ -21,8 +24,8 @@ class Guessconvert {
     }
 
     pickRandomNumber (min, max){
-        return Math.floor( Math.random() * (max-min)) + min;
-
+        this.generator.generate(min, max);
+        return this.generator.getNum();
     }
 
     attachHandlers(){
